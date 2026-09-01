@@ -1,4 +1,4 @@
-export type ServiceRecord={id:string;date:string;dateISO:string;mileage:number;type:string;category:'Service'|'Repairs'|'Inspection';workshop:string;parts:string[];notes?:string;cost:number;currency:'CHF'|'EUR';verified:boolean}
+export type ServiceRecord={id:string;vehicleId:string;date:string;dateISO:string;mileage:number;type:string;category:'Service'|'Repairs'|'Inspection';workshop:string;parts:string[];notes?:string;cost:number;currency:'CHF'|'EUR';verified:boolean}
 export type MaintenanceItem={id:string;name:string;status:'Due soon'|'Up to date'|'Overdue';dueAt?:number;remaining?:number;dueDate:string;last:string;interval:string;why:string}
 export type Vehicle={id:string;vin:string;make:string;model:string;trim:string;year:number;mileage:number;fuelType:string;power:string;transmission:string;registration?:string;image:string;health:string;ownershipStatus:'Current'|'Previous';ownershipSince:string;firstRegistration:string}
 export const vehicles:Vehicle[]=[
@@ -6,9 +6,10 @@ export const vehicles:Vehicle[]=[
  {id:'golf-gti',vin:'WVWZZZAUZHW123456',make:'Volkswagen',model:'Golf GTI',trim:'Performance · Mk7',year:2017,mileage:126800,fuelType:'Petrol',power:'230 hp',transmission:'Automatic',health:'Due soon',image:new URL('../assets/golf-gti-mk7.png',import.meta.url).href,ownershipStatus:'Previous',ownershipSince:'April 2019 — June 2023',firstRegistration:'8 March 2017'}
 ]
 export const initialServices:ServiceRecord[]=[
- {id:'s1',date:'15 May 2026',dateISO:'2026-05-15',mileage:84840,type:'Engine oil & oil filter',category:'Service',workshop:'Garage Jerala',parts:['5.2 L BMW LL-04 5W-30','Oil filter'],notes:'Routine oil service. No issues found.',cost:219,currency:'EUR',verified:true},
- {id:'s2',date:'12 October 2025',dateISO:'2025-10-12',mileage:72300,type:'Front brake pads & discs',category:'Repairs',workshop:'Autohaus Müller',parts:['Front brake discs','Brake pads','Wear sensor'],cost:690,currency:'CHF',verified:true},
- {id:'s3',date:'3 March 2025',dateISO:'2025-03-03',mileage:60120,type:'Annual service',category:'Inspection',workshop:'Garage Jerala',parts:['Cabin filter','Air filter','Brake fluid inspection','Diagnostic scan'],cost:340,currency:'CHF',verified:false}
+ {id:'s1',vehicleId:'bmw-320d',date:'15 May 2026',dateISO:'2026-05-15',mileage:84840,type:'Engine oil & oil filter',category:'Service',workshop:'Garage Jerala',parts:['5.2 L BMW LL-04 5W-30','Oil filter'],notes:'Routine oil service. No issues found.',cost:219,currency:'EUR',verified:true},
+ {id:'s2',vehicleId:'bmw-320d',date:'12 October 2025',dateISO:'2025-10-12',mileage:72300,type:'Front brake pads & discs',category:'Repairs',workshop:'Autohaus Müller',parts:['Front brake discs','Brake pads','Wear sensor'],cost:690,currency:'CHF',verified:true},
+ {id:'s3',vehicleId:'bmw-320d',date:'3 March 2025',dateISO:'2025-03-03',mileage:60120,type:'Annual service',category:'Inspection',workshop:'Garage Jerala',parts:['Cabin filter','Air filter','Brake fluid inspection','Diagnostic scan'],cost:340,currency:'CHF',verified:false},
+ {id:'g1',vehicleId:'golf-gti',date:'8 July 2026',dateISO:'2026-07-08',mileage:124600,type:'DSG oil service',category:'Service',workshop:'Autohaus Müller',parts:['DSG fluid','Transmission filter'],cost:480,currency:'CHF',verified:true}
 ]
 export const maintenance:MaintenanceItem[]=[
  {id:'inspection',name:'Technical inspection',status:'Overdue',dueDate:'18 August 2026',last:'18 August 2025',interval:'Every 12 months',why:'A valid technical inspection is required to confirm roadworthiness.'},

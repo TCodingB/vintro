@@ -40,14 +40,23 @@ import WorkshopInventory from './pages/workshop/Inventory.vue'
 import WorkshopOnboarding from './pages/workshop/Onboarding.vue'
 import WorkshopQuotes from './pages/workshop/Quotes.vue'
 import WorkshopIntegrations from './pages/workshop/Integrations.vue'
+import VehicleTimeline from './pages/VehicleTimeline.vue'
+import AddEvent from './pages/AddEvent.vue'
+import VehicleSettings from './pages/VehicleSettings.vue'
+import Notifications from './pages/Notifications.vue'
+import Membership from './pages/Membership.vue'
+import Insurance from './pages/Insurance.vue'
+import AcceptTransfer from './pages/AcceptTransfer.vue'
 
 const router=createRouter({history:createWebHistory(),scrollBehavior:()=>({top:0}),routes:[
  {path:'/',component:Garage},{path:'/add-vehicle',component:AddVehicle},{path:'/vehicle/:id',component:VehicleOverview},
  {path:'/vehicle/:id/history',component:Timeline},{path:'/vehicle/:id/add-service',component:AddService},
  {path:'/vehicle/:id/specifications',component:Specifications},{path:'/vehicle/:id/maintenance',component:Maintenance},
  {path:'/vehicle/:id/transfer',component:Transfer},{path:'/vehicle/:id/documents',component:Documents},{path:'/vehicle/:id/share',component:ShareHistory},
- {path:'/vehicle/:id/ownership',component:Ownership},{path:'/workshops',component:Workshops},{path:'/workshops/:id',component:WorkshopDetail},{path:'/book/:workshopId',component:Booking},
+ {path:'/vehicle/:id/ownership',component:Ownership},{path:'/vehicle/:id/timeline',component:VehicleTimeline},{path:'/vehicle/:id/add-event',component:AddEvent},{path:'/vehicle/:id/settings',component:VehicleSettings},
+ {path:'/workshops',component:Workshops},{path:'/workshops/:id',component:WorkshopDetail},{path:'/book/:workshopId',component:Booking},
  {path:'/offers',component:Offers},{path:'/quotes',component:Quotes},{path:'/quotes/:id',component:QuoteDetail},{path:'/activity',component:Activity},{path:'/profile',component:Profile},
+ {path:'/notifications',component:Notifications},{path:'/membership',component:Membership},{path:'/insurance',component:Insurance},{path:'/accept-transfer',component:AcceptTransfer},
  {path:'/login',component:Account,props:{mode:'login'},meta:{bare:true}},{path:'/register',component:Account,props:{mode:'register'},meta:{bare:true}},{path:'/reset-password',component:Account,props:{mode:'reset'},meta:{bare:true}},
  {path:'/workshop/register',component:WorkshopOnboarding,meta:{bare:true}},
  {path:'/workshop',component:WorkshopDashboard,meta:{workshop:true}},{path:'/workshop/calendar',component:WorkshopCalendar,meta:{workshop:true}},
