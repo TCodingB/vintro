@@ -6,13 +6,13 @@ export type CompanyCustomer={id:string;name:string;email:string;phone:string;veh
 export type CompanyBooking={id:string;time:string;duration:string;date:string;customer:string;vehicle:string;registration:string;service:string;technician:string;bay:string;status:BookingStatus;source:'Vintro Garage'|'Manual'}
 export type InspectionItem={category:string,state:InspectionState;measurement:string;note:string;photo:boolean;action:string}
 export type WorkOrder={id:string;bookingId:string;customer:string;vehicle:string;registration:string;vin:string;mileage:number;requested:string;technician:string;status:WorkOrderStatus;labour:{name:string;hours:number;rate:number}[];parts:{name:string;quantity:number;price:number}[];notes:string;photos:number;inspection:InspectionItem[];recommendation?:string}
-export const company={name:'Garage Jerala',legalName:'Jerala Avtoservis d.o.o.',vat:'SI 48291374',partner:true,phone:'+386 1 555 01 40',email:'service@jerala.si',locations:[{id:'lj-center',name:'Ljubljana Center',address:'Celovška cesta 228, Ljubljana',hours:'Mon–Fri · 07:30–17:00',bays:6},{id:'domzale',name:'Domžale',address:'Ljubljanska cesta 82, Domžale',hours:'Mon–Fri · 08:00–17:00',bays:4}],services:['Regular service','Diagnostics','Brakes','Tyres','Inspection','Body repair'],brands:['BMW','MINI','Volkswagen','Audi'],prices:[['Workshop labour','€72 / hour'],['Diagnostics','€65'],['Tyre change','€55'],['Wheel alignment','€75']]}
+export const company={name:'Servis Ljubljana',legalName:'Servis Ljubljana d.o.o.',vat:'SI 48291374',partner:true,phone:'+386 1 555 01 40',email:'info@servis-ljubljana.si',locations:[{id:'lj-center',name:'Servis Ljubljana',address:'Celovška cesta 228, Ljubljana',hours:'Mon–Fri · 07:30–17:00',bays:6},{id:'domzale',name:'Servis Domžale',address:'Ljubljanska cesta 82, Domžale',hours:'Mon–Fri · 08:00–17:00',bays:4}],services:['Regular service','Diagnostics','Brakes','Tyres','Inspection','Body repair'],brands:['BMW','MINI','Volkswagen','Audi'],prices:[['Workshop labour','€72 / hour'],['Diagnostics','€65'],['Tyre change','€55'],['Wheel alignment','€75']]}
 export const employees=[
- {id:'e1',name:'Matej Jerala',email:'matej@jerala.si',role:'Owner' as EmployeeRole,location:'Ljubljana Center',active:true},
- {id:'e2',name:'Nina Kovač',email:'nina@jerala.si',role:'Service advisor' as EmployeeRole,location:'Ljubljana Center',active:true},
- {id:'e3',name:'Luka Zupan',email:'luka@jerala.si',role:'Technician' as EmployeeRole,location:'Ljubljana Center',active:true},
- {id:'e4',name:'Marko Vidmar',email:'marko@jerala.si',role:'Technician' as EmployeeRole,location:'Domžale',active:true},
- {id:'e5',name:'Sara Mlakar',email:'sara@jerala.si',role:'Reception' as EmployeeRole,location:'Ljubljana Center',active:false}
+ {id:'e1',name:'Matej Novak',email:'matej@servis-ljubljana.si',role:'Owner' as EmployeeRole,location:'Servis Ljubljana',active:true},
+ {id:'e2',name:'Nina Kovač',email:'nina@servis-ljubljana.si',role:'Service advisor' as EmployeeRole,location:'Servis Ljubljana',active:true},
+ {id:'e3',name:'Luka Zupan',email:'luka@servis-ljubljana.si',role:'Technician' as EmployeeRole,location:'Servis Ljubljana',active:true},
+ {id:'e4',name:'Marko Vidmar',email:'marko@servis-ljubljana.si',role:'Technician' as EmployeeRole,location:'Servis Domžale',active:true},
+ {id:'e5',name:'Sara Mlakar',email:'sara@servis-ljubljana.si',role:'Reception' as EmployeeRole,location:'Servis Ljubljana',active:false}
 ]
 export const customers:CompanyCustomer[]=[
  {id:'c1',name:'Tadej Boncelj',email:'tadej@example.com',phone:'+41 79 555 12 34',vehicles:['BMW 320d Touring','Volkswagen Golf GTI'],visits:8,revenue:3270,lastVisit:'15 May 2026',nextVisit:'November 2026',recommendations:1,marketing:true,segments:['Active','High-value','Service due soon','Open recommendations']},

@@ -47,6 +47,7 @@ import Notifications from './pages/Notifications.vue'
 import Membership from './pages/Membership.vue'
 import Insurance from './pages/Insurance.vue'
 import AcceptTransfer from './pages/AcceptTransfer.vue'
+import { installLocale } from './locales'
 
 const router=createRouter({history:createWebHistory(),scrollBehavior:()=>({top:0}),routes:[
  {path:'/',component:Garage},{path:'/add-vehicle',component:AddVehicle},{path:'/vehicle/:id',component:VehicleOverview},
@@ -70,3 +71,4 @@ const router=createRouter({history:createWebHistory(),scrollBehavior:()=>({top:0
  {path:'/workshop/integrations',component:WorkshopIntegrations,meta:{workshop:true}}
 ]})
 createApp(App).use(router).mount('#app')
+installLocale()
