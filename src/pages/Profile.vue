@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import PrototypeViewSwitch from '../components/PrototypeViewSwitch.vue';
 
 import { ref } from "vue";
 import {
@@ -151,16 +152,8 @@ const changeLanguage = (event: Event) =>
         ><small class="text-muted">{{ translate("Use transfer code") }}</small></RouterLink
       >
     </div>
-    <RouterLink
-      to="/workshop"
-      class="card mt-5 flex items-center justify-between p-5"
-      ><span
-        ><strong class="block text-sm">{{ translate("Vintro Workshop") }}</strong
-        ><small class="text-muted">{{ translate("Open Servis Ljubljana workspace") }}</small></span
-      ><span class="text-sm font-semibold text-accent"
-        >{{ translate("Switch →") }}</span
-      ></RouterLink
-    ><button class="btn-primary mt-5 w-full">
+    <PrototypeViewSwitch target="workshop" class="mt-5"/>
+    <button class="btn-primary mt-5 w-full">
       <Check :size="17" />{{ translate((saved ? "Saved" : "Save preferences")) }}</button
     ><RouterLink
       to="/login"

@@ -949,3 +949,11 @@ export const deCalendar: Record<string, string> = {
   Jan: 'Jan', Feb: 'Feb', Mar: 'Mär', Apr: 'Apr', Jun: 'Jun', Jul: 'Jul',
   Aug: 'Aug', Sep: 'Sep', Oct: 'Okt', Nov: 'Nov', Dec: 'Dez',
 };
+
+Object.assign(de, {
+  "Prototype only": "Nur im Prototyp",
+  "Switch to garage view": "Zur Garagenansicht wechseln",
+  "Switch to workshop view": "Zur Werkstattansicht wechseln",
+  "Explore the vehicle owner side of this demo.": "Entdecken Sie die Demo aus Sicht der Fahrzeugeigentümer.",
+  "Explore the workshop side of this demo.": "Entdecken Sie die Demo aus Sicht der Werkstatt."
+});

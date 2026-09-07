@@ -40,3 +40,5 @@ Deployment settings are explicitly configured as:
 - SPA fallback: all application routes rewrite to `index.html`
 
 Local secrets, `.env` files, dependencies, and build output are excluded from Git through `.gitignore`.
+
+The proof-of-concept view switch is available in both application shells and on the profile page. Set `prototypeViewSwitchEnabled` in `src/config/prototype.ts` to `false` to remove these switches after the prototype phase.

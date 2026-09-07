@@ -1129,3 +1129,11 @@ slPatterns.unshift(
 );
 
 Object.assign(sl, { German: "Nemščina", VIN: "VIN" });
+
+Object.assign(sl, {
+  "Prototype only": "Samo za prototip",
+  "Switch to garage view": "Preklopi na pogled garaže",
+  "Switch to workshop view": "Preklopi na pogled servisa",
+  "Explore the vehicle owner side of this demo.": "Raziščite predstavitev za lastnike vozil.",
+  "Explore the workshop side of this demo.": "Raziščite predstavitev za servise."
+});

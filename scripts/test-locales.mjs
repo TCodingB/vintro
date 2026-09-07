@@ -150,6 +150,27 @@ try {
     }
     rendered++;
   }
+  // Check the real shells, which are outside the individual page render checks.
+  const { default: App } = await server.ssrLoadModule('/src/App.vue');
+  const switchRouter = createRouter({
+    history: createMemoryHistory(),
+    routes: [
+      { path: '/', component: { render: () => null } },
+      { path: '/workshop', component: { render: () => null }, meta: { workshop: true } },
+      { path: '/:pathMatch(.*)*', component: { render: () => null } },
+    ],
+  });
+  for (const language of ['en', 'sl', 'de']) {
+    setLocale(language);
+    for (const [path, label] of [['/', 'Switch to workshop view'], ['/workshop', 'Switch to garage view']]) {
+      await switchRouter.push(path);
+      await switchRouter.isReady();
+      const html = await renderToString(createSSRApp(App).use(switchRouter));
+      assert.equal(html.split(translate(label)).length - 1, 2, 'Switch appears in desktop and mobile layouts');
+      assert.equal(html.split(translate('Prototype only')).length - 1, 2);
+      assert.equal(locale.value, language, 'Switching views preserves language');
+    }
+  }
   if (process.env.LOCALE_AUDIT) for (const language of ['sl', 'de']) console.log(language + '\n' + [...unchanged[language]].sort().join('\n'));
   console.log(`Locale checks passed; rendered ${rendered} routes in all three languages.`);
 } finally {
