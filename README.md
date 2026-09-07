@@ -15,6 +15,12 @@ npm run dev
 npm run build
 ```
 
+## Localization
+
+English source strings are translation keys. Add Slovenian equivalents to `src/locales/sl.ts` and German equivalents to `src/locales/de.ts` and render labels through `useLocale().translate(...)`, including placeholders and dynamic messages. Keep complete sentences together so count patterns can use language-specific singular and plural forms (including the Slovenian dual). Translate option labels while keeping their original `value` for filters and saved data. Vue tracks locale changes directly; no DOM translation observer is needed.
+
+Run `npm run test:locales` to check translations, reactive language switching, option values, and matching translation catalogs, saved language preferences, and rendering of all routes in all three languages. `LOCALE_AUDIT=1 npm run test:locales` also lists unchanged rendered text for review (including proper names and technical identifiers).
+
 ## Deploy
 
 The repository is configured for GitHub → Vercel deployment.

@@ -1,145 +1,63 @@
 import { readonly, ref } from "vue";
-import { sl, slPatterns } from "./sl";
+import { sl, slPatterns, slCalendar } from "./sl";
+import { de, dePatterns, deCalendar } from "./de";
+import { sourceMonthNumbers } from "./calendar";
 
-export type AppLocale = "sl" | "en";
+export type AppLocale = "sl" | "en" | "de";
 const stored = localStorage.getItem("vintro-locale");
-const locale = ref<AppLocale>(stored === "en" ? "en" : "sl");
-const originals = new WeakMap<Text, string>();
-const attributeOriginals = new WeakMap<Element, Map<string, string>>();
-const translatedAttributes = ["placeholder", "aria-label", "title"];
-const months: Record<string, string> = {
-  January: "januar",
-  February: "februar",
-  March: "marec",
-  April: "april",
-  May: "maj",
-  June: "junij",
-  July: "julij",
-  August: "avgust",
-  September: "september",
-  October: "oktober",
-  November: "november",
-  December: "december",
-  Monday: "ponedeljek",
-  Tuesday: "torek",
-  Wednesday: "sreda",
-  Thursday: "četrtek",
-  Friday: "petek",
-  Saturday: "sobota",
-  Sunday: "nedelja",
-  Mon: "pon",
-  Tue: "tor",
-  Wed: "sre",
-  Thu: "čet",
-  Fri: "pet",
-  Sat: "sob",
-  Sun: "ned",
-  Jan: "jan",
-  Feb: "feb",
-  Mar: "mar",
-  Apr: "apr",
-  Jun: "jun",
-  Jul: "jul",
-  Aug: "avg",
-  Sep: "sep",
-  Oct: "okt",
-  Nov: "nov",
-  Dec: "dec",
+const locale = ref<AppLocale>(stored === "en" || stored === "de" ? stored : "sl");
+
+const catalogs = {
+  sl: { messages: sl, patterns: slPatterns, calendar: slCalendar },
+  de: { messages: de, patterns: dePatterns, calendar: deCalendar },
 };
+const languageTags: Record<AppLocale, string> = { sl: "sl-SI", en: "en", de: "de-DE" };
 
-function translate(value: string) {
-  if (locale.value === "en") return value;
-  const exact = sl[value];
-  if (exact) return exact;
-  for (const [pattern, replacement] of slPatterns) {
+function translateMessage(value: string, catalog: typeof catalogs.sl): string {
+  const { messages, patterns } = catalog;
+  if (messages[value]) return messages[value];
+  for (const [pattern, replacement] of patterns) {
     const match = value.match(pattern);
-    if (match) return replacement(...match.slice(1));
+    if (match) {
+      const result = replacement(...match.slice(1));
+      if (result !== value) return result;
+    }
   }
-  let result = value;
-  for (const [word, replacement] of Object.entries(months))
-    result = result.replace(new RegExp(`\\b${word}\\b`, "g"), replacement);
-  return result;
+  // Labels in metadata are separated from vehicle names and other stored data.
+  return value.split(/( · | × )/).map(part => messages[part] ?? part).join("");
 }
 
-function applyText(node: Text) {
-  if (!originals.has(node)) originals.set(node, node.data);
-  const source = originals.get(node)!;
+/** Source-language keys remain stable in data, filters and form values. */
+export function translate(value: unknown): string {
+  const source = value == null ? "" : String(value);
+  if (locale.value === "en") return source;
   const trimmed = source.trim();
-  if (!trimmed) return;
-  node.data = source.replace(trimmed, translate(trimmed));
-}
-
-function applyElement(element: Element) {
-  if (element.matches("script, style")) return;
-  let saved = attributeOriginals.get(element);
-  if (!saved) {
-    saved = new Map();
-    attributeOriginals.set(element, saved);
-  }
-  for (const attribute of translatedAttributes) {
-    const current = element.getAttribute(attribute);
-    if (current !== null && !saved.has(attribute))
-      saved.set(attribute, current);
-    const source = saved.get(attribute);
-    if (source !== undefined)
-      element.setAttribute(attribute, translate(source));
-  }
-}
-
-function applyLocale(root: ParentNode = document.body) {
-  const walker = document.createTreeWalker(
-    root,
-    NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_TEXT,
+  const catalog = catalogs[locale.value];
+  let result = translateMessage(trimmed, catalog);
+  result = result.replace(
+    /\b(\d{1,2}) ([A-Za-z]+) (\d{4})\b/g,
+    (date, day, month, year) => sourceMonthNumbers[month] ? `${Number(day)}. ${sourceMonthNumbers[month]}. ${year}` : date,
   );
-  let node: Node | null = root as Node;
-  while (node) {
-    if (node.nodeType === Node.TEXT_NODE) applyText(node as Text);
-    else applyElement(node as Element);
-    node = walker.nextNode();
+  // Translate calendar labels and dates without changing names such as Jan Kos.
+  for (const [word, replacement] of Object.entries(catalog.calendar)) {
+    if (result === word) result = replacement;
+    else result = result.replace(
+      new RegExp(`\\b${word}\\b(?= \\d|,|[–—]| ·)|(?<=[–—])\\b${word}\\b`, "g"),
+      replacement,
+    );
   }
-}
-
-let observer: MutationObserver | undefined;
-let queued = false;
-function refresh() {
-  if (!document.body) return;
-  observer?.disconnect();
-  applyLocale();
-  observer?.observe(document.body, {
-    childList: true,
-    characterData: true,
-    subtree: true,
-  });
+  return source.replace(trimmed, result);
 }
 
 export function installLocale() {
-  document.documentElement.lang = locale.value === "sl" ? "sl-SI" : "en";
-  observer = new MutationObserver((mutations) => {
-    // Vue can reuse an existing text node when a status or value changes. Treat
-    // that new value as the source text so localization never restores stale UI.
-    for (const mutation of mutations) {
-      if (mutation.type === "characterData")
-        originals.set(
-          mutation.target as Text,
-          mutation.target.textContent ?? "",
-        );
-    }
-    if (queued) return;
-    queued = true;
-    queueMicrotask(() => {
-      queued = false;
-      refresh();
-    });
-  });
-  refresh();
+  document.documentElement.lang = languageTags[locale.value];
 }
 
 export function useLocale() {
   const setLocale = (value: AppLocale) => {
     locale.value = value;
     localStorage.setItem("vintro-locale", value);
-    document.documentElement.lang = value === "sl" ? "sl-SI" : "en";
-    refresh();
+    installLocale();
   };
   return { locale: readonly(locale), setLocale, translate };
 }

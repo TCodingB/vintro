@@ -1008,3 +1008,124 @@ export const slPatterns: Array<[RegExp, (...parts: string[]) => string]> = [
       `Ta ponudba je ${sl[status] ?? status}. Servis lahko vidi vašo odločitev.`,
   ],
 ];
+
+export const slCalendar: Record<string, string> = {
+  January: "januar",
+  February: "februar",
+  March: "marec",
+  April: "april",
+  May: "maj",
+  June: "junij",
+  July: "julij",
+  August: "avgust",
+  September: "september",
+  October: "oktober",
+  November: "november",
+  December: "december",
+  Monday: "ponedeljek",
+  Tuesday: "torek",
+  Wednesday: "sreda",
+  Thursday: "četrtek",
+  Friday: "petek",
+  Saturday: "sobota",
+  Sunday: "nedelja",
+  Mon: "pon",
+  Tue: "tor",
+  Wed: "sre",
+  Thu: "čet",
+  Fri: "pet",
+  Sat: "sob",
+  Sun: "ned",
+  Jan: "jan",
+  Feb: "feb",
+  Mar: "mar",
+  Apr: "apr",
+  Jun: "jun",
+  Jul: "jul",
+  Aug: "avg",
+  Sep: "sep",
+  Oct: "okt",
+  Nov: "nov",
+  Dec: "dec",
+};
+
+
+Object.assign(sl, {
+  "We'll send a secure reset link to your email.": "Na vaš e-poštni naslov bomo poslali varno povezavo za ponastavitev gesla.",
+  "e.g. Insurance policy 2026": "npr. Zavarovalna polica 2026",
+  "Estimated opportunity": "Ocenjena vrednost priložnosti",
+  Selected: "Izbrano",
+  OK: "V redu",
+  approved: "odobrena",
+  declined: "zavrnjena",
+  "Quote approved": "Ponudba odobrena",
+  "Quote declined": "Ponudba zavrnjena",
+  "Westfalia detachable tow bar": "Snemljiva vlečna kljuka Westfalia",
+  "Zürich, Switzerland": "Zürich, Švica",
+  "Munich, Germany": "München, Nemčija",
+  "BMW oil filter HU 6014 z": "Oljni filter BMW HU 6014 z",
+  "5W-30 LL-04 engine oil": "Motorno olje 5W-30 LL-04",
+  "Shelf A-12": "Polica A-12",
+  "Shelf B-08": "Polica B-08",
+  "Fluids F-02": "Tekočine F-02",
+  "1h": "1 h",
+  "2h": "2 h",
+  "45m": "45 min",
+  "1h 30m": "1 h 30 min",
+});
+
+// Slovenian distinguishes singular, dual, few (3–4) and other counts.
+export function slCount(n: string, forms: [string, string, string, string]) {
+  const count = Number(n);
+  const last = count % 100;
+  const index = !Number.isInteger(count) ? 3 : last === 1 ? 0 : last === 2 ? 1 : last === 3 || last === 4 ? 2 : 3;
+  return `${n} ${forms[index]}`;
+}
+
+slPatterns.unshift(
+  [/^(\d+) vehicles?[. ·]+Every story in one place\.$/, n => `${slCount(n, ['vozilo', 'vozili', 'vozila', 'vozil'])}. Vse zgodbe na enem mestu.`],
+  [/^(\d+) vehicles?$/, n => slCount(n, ['vozilo', 'vozili', 'vozila', 'vozil'])],
+  [/^(\d+) awaiting review$/, n => `${slCount(n, ['ponudba čaka', 'ponudbi čakata', 'ponudbe čakajo', 'ponudb čaka'])} na pregled`],
+  [/^(\d+) active requests?$/, n => slCount(n, ['aktivna zahteva', 'aktivni zahtevi', 'aktivne zahteve', 'aktivnih zahtev'])],
+  [/^(\d+) requests?$/, n => slCount(n, ['zahteva', 'zahtevi', 'zahteve', 'zahtev'])],
+  [/^(\d+) waiting approval$/, n => `${slCount(n, ['ponudba čaka', 'ponudbi čakata', 'ponudbe čakajo', 'ponudb čaka'])} na odobritev`],
+  [/^(\d+) records?$/, n => slCount(n, ['zapis', 'zapisa', 'zapisi', 'zapisov'])],
+  [/^(\d+) files?$/, n => slCount(n, ['datoteka', 'datoteki', 'datoteke', 'datotek'])],
+  [/^(\d+) (?:customer )?reviews?$/, n => slCount(n, ['ocena', 'oceni', 'ocene', 'ocen'])],
+  [/^(\d+) workshop bays$/, n => slCount(n, ['servisno mesto', 'servisni mesti', 'servisna mesta', 'servisnih mest'])],
+  [/^(\d+) attached$/, n => slCount(n, ['priložena fotografija', 'priloženi fotografiji', 'priložene fotografije', 'priloženih fotografij'])],
+  [/^(\d+) of (\d+) storage positions$/, (n, total) => `Zasedena mesta za hrambo: ${n} od ${total}`],
+  [/^([+−-]?[\d.]+%) this month$/, value => `${value} ta mesec`],
+  [/^([+−-]?[\d.]+%) vs July$/, value => `${value} v primerjavi z julijem`],
+  [/^(\d+) orders · (.+) revenue$/, (n, amount) => `${slCount(n, ['nalog', 'naloga', 'nalogi', 'nalogov'])} · prihodki ${amount}`],
+  [/^Current ([\d,.’\s]+) km$/, km => `Trenutno ${km} km`],
+  [/^([\d,.’\s]+) km (?:left|remaining)$/, km => `Še ${km} km`],
+  [/^([\d,.’\s]+) km · ([\d,.’\s]+) km remaining$/, (due, remaining) => `${due} km · še ${remaining} km`],
+  [/^(\d{4}) · VIN ending (.+)$/, (year, vin) => `${year} · VIN se konča z ${vin}`],
+  [/^VIN ending (.+)$/, vin => `VIN se konča z ${vin}`],
+  [/^(.+) — present$/, date => `${date} — danes`],
+  [/^(\d+)% off labour for Vintro members$/, n => `${n} % popusta na delo za člane Vintro`],
+  [/^Member benefit · (.+)$/, benefit => `Članska ugodnost · ${sl[benefit] ?? benefit.replace(/^(\d+)% off labour for Vintro members$/, '$1 % popusta na delo za člane Vintro')}`],
+  [/^€\s?(\d+) \/ hour$/, amount => `${amount} € / uro`],
+  [/^([\d,.]+) km \/ (\d+) months$/, (km, months) => `${km} km / ${slCount(months, ['mesec', 'meseca', 'meseci', 'mesecev'])}`],
+  [/^(\d+) months$/, n => slCount(n, ['mesec', 'meseca', 'meseci', 'mesecev'])],
+  [/^(\d+)-speed automatic$/, n => `${n}-stopenjski samodejni menjalnik`],
+  [/^(\d+)-speed DSG$/, n => `${n}-stopenjski DSG`],
+  [/^([\d.]+) bar front · ([\d.]+) bar rear$/, (front, rear) => `${front.replace('.', ',')} bar spredaj · ${rear.replace('.', ',')} bar zadaj`],
+  [/^Your decision will be shared with (.+)\. This remains a local prototype action\.$/, workshop => `Vaša odločitev bo posredovana servisu ${workshop}. To je lokalno dejanje v prototipu.`],
+  [/^(.+) reminder prepared$/, name => `Opomnik pripravljen: ${sl[name] ?? name}`],
+  [/^Reminder added for (.+)$/, name => `Opomnik dodan: ${sl[name] ?? name}`],
+);
+
+Object.assign(sl, { "Previous vehicle": "Prejšnje vozilo" });
+slPatterns.unshift(
+  [/^\((\d+) reviews\)$/, n => `(${slCount(n, ['ocena', 'oceni', 'ocene', 'ocen'])})`],
+  [/^(\d+) documents?$/, n => slCount(n, ['dokument', 'dokumenta', 'dokumenti', 'dokumentov'])],
+  [/^(\d+) photos?$/, n => slCount(n, ['fotografija', 'fotografiji', 'fotografije', 'fotografij'])],
+  [/^(\d+) new$/, n => slCount(n, ['novo obvestilo', 'novi obvestili', 'nova obvestila', 'novih obvestil'])],
+  [/^Estimated opportunity (.+)$/, amount => `Ocenjena vrednost priložnosti ${amount}`],
+  [/^Selected (.+)$/, name => `Izbrano: ${name}`],
+  [/^(.+) · due within (\d+) days$/, (vehicle, days) => `${vehicle} · zapade v ${days} dneh`],
+);
+
+Object.assign(sl, { German: "Nemščina", VIN: "VIN" });
