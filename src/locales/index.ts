@@ -4,8 +4,10 @@ import { de, dePatterns, deCalendar } from "./de";
 import { sourceMonthNumbers } from "./calendar";
 
 export type AppLocale = "sl" | "en" | "de";
-const stored = localStorage.getItem("vintro-locale");
-const locale = ref<AppLocale>(stored === "en" || stored === "de" ? stored : "sl");
+export function resolveLocale(stored: string | null): AppLocale {
+  return stored === "sl" || stored === "de" ? stored : "en";
+}
+const locale = ref<AppLocale>(resolveLocale(localStorage.getItem("vintro-locale")));
 
 const catalogs = {
   sl: { messages: sl, patterns: slPatterns, calendar: slCalendar },

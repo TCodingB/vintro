@@ -14,7 +14,10 @@ globalThis.localStorage = {
 globalThis.document = { documentElement: { lang: '' } };
 const server = await createServer({ server: { middlewareMode: true }, appType: 'custom' });
 try {
-  const { useLocale } = await server.ssrLoadModule('/src/locales/index.ts');
+  const { useLocale, resolveLocale } = await server.ssrLoadModule('/src/locales/index.ts');
+  assert.equal(resolveLocale(null), 'en', 'First-time visitors start in English');
+  assert.equal(resolveLocale('unsupported'), 'en');
+  for (const language of ['en', 'de', 'sl']) assert.equal(resolveLocale(language), language);
   const { locale, translate, setLocale } = useLocale();
   assert.equal(locale.value, 'de', 'Restores the saved German locale');
   assert.equal(translate('Maintenance'), 'Wartung');
@@ -116,7 +119,16 @@ try {
     }
     if (url === '/') assert.ok(html.sl.includes('2 vozili. Vse zgodbe na enem mestu.'));
     if (url === '/activity') assert.ok(html.sl.includes('ponudba čaka na pregled'));
-    if (url === '/') assert.ok(html.de.includes('2 Fahrzeuge. Jede Geschichte an einem Ort.'));
+    if (url === '/') {
+      assert.ok(html.de.includes('2 Fahrzeuge. Jede Geschichte an einem Ort.'));
+      for (const language of ['en', 'de', 'sl']) {
+        assert.match(html[language], new RegExp(`<select[^>]*value="${language}"`));
+        assert.ok(html[language].includes('English'));
+        assert.ok(html[language].includes('Deutsch'));
+        assert.ok(html[language].includes('Slovenščina'));
+        assert.ok(html[language].includes('aria-label='));
+      }
+    }
     if (url === '/activity') assert.ok(html.de.includes('Angebot wartet auf Prüfung'));
     if (url === '/profile') {
       assert.ok(html.de.includes('value="de">Deutsch</option>'));
