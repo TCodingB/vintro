@@ -21,6 +21,7 @@ export const customers:CompanyCustomer[]=[
  {id:'c4',name:'Maja Horvat',email:'maja@example.com',phone:'+386 31 908 221',vehicles:['MINI Cooper S'],visits:2,revenue:620,lastVisit:'18 April 2025',nextVisit:'Overdue',recommendations:0,marketing:true,segments:['Dormant','Service due soon']}
 ]
 export const bookings:CompanyBooking[]=[
+ {id:'bmw-tyres-2026-09-01',time:'08:00',duration:'',date:'2026-09-01',customer:'Tadej Boncelj',vehicle:'BMW 320d Touring',registration:'ZH 482 913',service:'Tyres',technician:'',bay:'',status:'Requested',source:'Vintro Garage'},
  {id:'b1',time:'08:00',duration:'1h 30m',date:'2026-08-26',customer:'Tadej Boncelj',vehicle:'BMW 320d Touring',registration:'ZH 482 913',service:'Front suspension inspection',technician:'Luka Zupan',bay:'Lift 2',status:'In workshop',source:'Vintro Garage'},
  {id:'b2',time:'09:30',duration:'1h',date:'2026-08-26',customer:'Ana Novak',vehicle:'Audi A4 Avant',registration:'LJ AV-440',service:'Oil service',technician:'Marko Vidmar',bay:'Lift 4',status:'Confirmed',source:'Manual'},
  {id:'b3',time:'11:00',duration:'45m',date:'2026-08-26',customer:'Thomas Keller',vehicle:'BMW X3 xDrive20d',registration:'ZH 662 118',service:'Diagnostics',technician:'Luka Zupan',bay:'Diagnostics',status:'Waiting approval',source:'Vintro Garage'},
