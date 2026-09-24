@@ -34,7 +34,7 @@ The repository is configured for GitHub → Vercel deployment.
 
 Deployment settings are explicitly configured as:
 
-- Node.js: `20.x`
+- Node.js: `24.x`
 - Build command: `npm run build`
 - Output directory: `dist`
 - SPA fallback: all application routes rewrite to `index.html`
