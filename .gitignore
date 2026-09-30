@@ -1,5 +1,7 @@
 node_modules/
 dist/
+site/
+.venv/
 *.tsbuildinfo
 .DS_Store
 .vercel/

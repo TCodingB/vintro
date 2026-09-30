@@ -1,0 +1,15 @@
+table:not(.table) {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+table:not(.table) th,
+table:not(.table) td {
+  border: 1px solid #737373;
+  padding: 0.4rem 0.55rem;
+  vertical-align: top;
+}
+
+table:not(.table) th {
+  background-color: #e9ecef;
+}

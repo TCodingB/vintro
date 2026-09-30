@@ -1,0 +1,9 @@
+[project]
+name = "vintro-workflows-docs"
+version = "0.1.0"
+description = "MkDocs project for the Vintro workflow catalog"
+requires-python = ">=3.12"
+dependencies = [
+    "mkdocs>=1.6,<2",
+    "mkdocs-with-pdf>=0.9.3",
+]

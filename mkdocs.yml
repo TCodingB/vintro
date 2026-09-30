@@ -1,0 +1,27 @@
+site_name: Vintro | Katalog celovitih delovnih tokov
+site_description: Katalog delovnih tokov platforme Vintro.
+docs_dir: docs
+site_dir: site
+extra_css:
+  - css/workflows.css
+
+nav:
+  - Delovni tokovi: bartog/workflows.md
+
+exclude_docs: |
+  /pyproject.toml
+  /uv.lock
+  /.venv/
+
+validation:
+  nav:
+    omitted_files: ignore
+
+plugins:
+  - search
+  - with-pdf:
+      output_path: ../docs/bartog/workflows.pdf
+      custom_template_path: docs/pdf
+      cover_title: Vintro
+      cover_subtitle: Katalog celovitih delovnih tokov
+      toc_title: Kazalo
